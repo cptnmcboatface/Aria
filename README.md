@@ -1,4 +1,4 @@
-# aria_makeup
+# A shopping app for a client
 
 A new Flutter project.
 
