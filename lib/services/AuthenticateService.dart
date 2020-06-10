@@ -11,7 +11,7 @@ class AuthService {
       stream: FirebaseAuth.instance.onAuthStateChanged,
       builder: (BuildContext context, snapshot) {
         if (snapshot.hasData) {
-          return HomeScreen();
+          return HomeScreen(uid: snapshot.data.uid,);
         } else {
           return LoginScreen();
         }

@@ -17,8 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(
         Duration(seconds: 3),
         () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => AuthService().handleAuth()
-            )));
+            builder: (BuildContext context) => AuthService().handleAuth())));
   }
 
   @override
@@ -27,32 +26,26 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
         backgroundColor: Colors.white,
         body: Container(
-            // color: Colors.white,
             width: double.infinity,
-            color:mainThemeColor,
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                
-                children: [
-                  Text(
-                    "ARQOZMETICS",
-                    style: GoogleFonts.playfairDisplay(
-                        textStyle:
-                            TextStyle(fontSize: 38, color: Colors.white)),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    "WHERE QUALITY IS QUEEN",
-                    style: GoogleFonts.montserrat(
-                        textStyle:
-                            TextStyle(fontSize: 15, color: Colors.white)),
-                  )
-                  ,
-                  SizedBox(height: 20),
-                  SpinKitPumpingHeart(
-                    color: Colors.white,
-                    size: 20.0,
-                  )
-                ])));
+            color: mainThemeColor,
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text(
+                "ARQOZMETICS",
+                style: GoogleFonts.playfairDisplay(
+                    textStyle: TextStyle(fontSize: 38, color: Colors.white)),
+              ),
+              SizedBox(height: 10),
+              Text(
+                "WHERE QUALITY IS QUEEN",
+                style: GoogleFonts.montserrat(
+                    textStyle: TextStyle(fontSize: 15, color: Colors.white)),
+              ),
+              SizedBox(height: 20),
+              SpinKitPumpingHeart(
+                color: Colors.white,
+                size: 20.0,
+              )
+            ])));
   }
 }

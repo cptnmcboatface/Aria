@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:aria_makeup/services/AuthenticateService.dart';
 import 'package:aria_makeup/screens/SplashScreen.dart';
 
 
