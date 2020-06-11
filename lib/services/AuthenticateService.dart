@@ -1,3 +1,4 @@
+import 'package:aria_makeup/services/WrapperService.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ class AuthService {
       stream: FirebaseAuth.instance.onAuthStateChanged,
       builder: (BuildContext context, snapshot) {
         if (snapshot.hasData) {
-          return HomeScreen(uid: snapshot.data.uid,);
+          return Wrapper(uid: snapshot.data.uid,);
         } else {
           return LoginScreen();
         }
