@@ -21,20 +21,18 @@ class _WrapperState extends State<Wrapper> {
   bool check;
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: widget.dB.checkUser(), builder: (context, snapshot) {
-          if(snapshot.hasData){
-            bool userDataCheck = snapshot.data;
-            if(userDataCheck){
-              return HomeScreen(uid:widget.uid);
-            }else{
-              return UserDataScreen();
-            }
-          }else{
-            print("No Data User Data Check");
-            return LoadingScreen();
-          }
-        });
+    return HomeScreen(uid: widget.uid);
+    // return FutureBuilder(
+    //     future: widget.dB.checkUser(),
+    //     builder: (context, snapshot) {
+    //       if (snapshot.hasData) {
+    //         bool userDataCheck = snapshot.data;
+            
+    //         return HomeScreen(uid: widget.uid, userDataCheck: userDataCheck);
+    //       } else {
+    //         print("No Data User Data Check");
+    //         return LoadingScreen();
+    //       }
+    //     });
   }
-
 }
