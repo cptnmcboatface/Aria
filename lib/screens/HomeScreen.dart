@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:aria_makeup/screens/ProductScreen.dart';
 import 'package:aria_makeup/shared/Constants.dart';
 import 'package:flutter/material.dart';
 import 'package:aria_makeup/services/AuthenticateService.dart';
@@ -193,32 +194,39 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget bottomDrawerCard(var col) {
     var tileWidth = MediaQuery.of(context).size.width / 3;
-    var bottom = MediaQuery.of(context).viewInsets.bottom;
-    // print(bottom.to+'here');
-    var tileHeight = tileWidth * 1.42;
-    return Container(
-      width: tileWidth,
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: col),
+
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ProductScreen(name: "lorem ipsum")),
+        );
+      },
+      child: Container(
+        width: tileWidth,
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: col),
+              ),
             ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            "Lorem Ipsum",
-            style: GoogleFonts.montserrat(
-                textStyle: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                    fontSize: 15)),
-          )
-        ],
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              "Lorem Ipsum",
+              style: GoogleFonts.montserrat(
+                  textStyle: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                      fontSize: 15)),
+            )
+          ],
+        ),
       ),
     );
   }
