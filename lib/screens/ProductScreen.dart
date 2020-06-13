@@ -59,7 +59,7 @@ class _ProductScreenState extends State<ProductScreen> {
     return CustomPaint(
       painter: ShapesPainter(),
       child: Container(
-        padding: EdgeInsets.only(left: 20, top: 20),
+        padding: EdgeInsets.only(left: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -250,8 +250,9 @@ class _ProductScreenState extends State<ProductScreen> {
       ),
     );
   }
-
+  bool likeState = false;
   Widget productScreenTop() {
+    
     return Container(
       child: new Stack(
         children: <Widget>[
@@ -262,7 +263,7 @@ class _ProductScreenState extends State<ProductScreen> {
             onPressed: () {
               Navigator.pop(context);
             },
-            padding: EdgeInsets.only(top: 25),
+            padding: EdgeInsets.only(top: 30),
             icon: Icon(
               Icons.arrow_back_ios,
               size: 25,
@@ -281,7 +282,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 children: <Widget>[
                   IconButton(
                     onPressed: () {},
-                    padding: EdgeInsets.only(top: 25),
+                    padding: EdgeInsets.only(top: 30),
                     icon: Icon(
                       Icons.shopping_cart,
                       size: 25,
@@ -306,10 +307,14 @@ class _ProductScreenState extends State<ProductScreen> {
                     }).toList(),
                   ),
                   IconButton(
-                    onPressed: () {},
-                    padding: EdgeInsets.only(bottom: 30),
+                    onPressed: () {
+                      setState(() {
+                        likeState=!likeState;
+                      });
+                    },
+                    padding: EdgeInsets.only(bottom: 60),
                     icon: Icon(
-                      Icons.favorite_border,
+                      likeState?Icons.favorite:Icons.favorite_border,
                       size: 25,
                       color: Colors.white,
                     ),
@@ -344,9 +349,6 @@ class _ProductScreenState extends State<ProductScreen> {
             options: CarouselOptions(
                 height: double.infinity,
                 viewportFraction: 1.0,
-                // autoPlay: true,
-                // enlargeCenterPage: true,
-                // aspectRatio: 2.0,
                 onPageChanged: (index, reason) {
                   setState(() {
                     _current = index;
@@ -367,19 +369,19 @@ class ShapesPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     final curvePath = Path();
-    curvePath.moveTo(size.width - 30, 0);
+    curvePath.moveTo(size.width - 30, -30);
 
     curvePath.arcToPoint(
-      Offset(size.width, 30),
+      Offset(size.width, 0),
       radius: Radius.circular(30),
     );
-    curvePath.lineTo(0, 30);
+    curvePath.lineTo(0, 0);
     
-    curvePath.lineTo(0, -30);
+    curvePath.lineTo(0, -60);
     
 
     curvePath.arcToPoint(
-      Offset(30, 0),
+      Offset(30, -30),
       
       radius: Radius.circular(30),
       rotation: 0,
@@ -387,7 +389,6 @@ class ShapesPainter extends CustomPainter {
 
       // largeArc: true,
     );
-
     canvas.drawPath(curvePath, paint);
 
     //10

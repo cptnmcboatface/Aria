@@ -38,7 +38,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: null),
           ],
           leading: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              AuthService().signOut();
+            },
             color: Colors.white,
             icon: Icon(
               Icons.dehaze,
