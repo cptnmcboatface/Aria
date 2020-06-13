@@ -326,8 +326,6 @@ class _ProductScreenState extends State<ProductScreen> {
         ],
       ),
     );
-
-    // Container(color: Colors.redAccent, child: imageSlider());
   }
 
   Widget imageSlider() {

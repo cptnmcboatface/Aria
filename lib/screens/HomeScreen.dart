@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:aria_makeup/services/AuthenticateService.dart';
 import 'package:aria_makeup/screens/UserDataScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:aria_makeup/screens/ShoppingCartScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   final uid;
@@ -35,7 +36,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   Icons.shopping_basket,
                   color: Colors.black,
                 ),
-                onPressed: null),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ShoppingCartScreen()),
+                  );
+                }),
           ],
           leading: IconButton(
             onPressed: () {
