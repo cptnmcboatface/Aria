@@ -257,8 +257,6 @@ class _ProductScreenState extends State<ProductScreen> {
     return Container(
       child: new Stack(
         children: <Widget>[
-          // The containers in the background
-
           imageSlider(),
           IconButton(
             onPressed: () {
@@ -271,7 +269,6 @@ class _ProductScreenState extends State<ProductScreen> {
               color: Colors.white,
             ),
           ),
-
           Container(
             alignment: Alignment.centerRight,
             child: Container(

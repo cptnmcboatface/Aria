@@ -1,5 +1,5 @@
-import 'dart:ffi';
 
+import 'package:aria_makeup/screens/AllItemsScreen.dart';
 import 'package:aria_makeup/screens/ProductScreen.dart';
 import 'package:aria_makeup/shared/Constants.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +44,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontWeight: FontWeight.w500)),
               ),
             ],
-          
           ),
           decoration: BoxDecoration(
             color: mainThemeColor,
@@ -52,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         ListTile(
           title: Text(
-            "Categories",
+            "All Items",
             style: GoogleFonts.montserrat(
                 textStyle: TextStyle(
                     color: Colors.black,
@@ -61,6 +60,11 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           onTap: () {
             Navigator.pop(context);
+            Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AllItemsScreen()),
+                  );
           },
         ),
         ListTile(
@@ -123,12 +127,6 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Colors.white,
           elevation: 0.0,
           actions: <Widget>[
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.search,
-              ),
-            ),
             IconButton(
                 icon: Icon(
                   Icons.shopping_cart,
