@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:aria_makeup/screens/OrderScreen.dart';
 class CheckoutScreen extends StatefulWidget {
   @override
   _CheckoutScreenState createState() => _CheckoutScreenState();
@@ -232,6 +232,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       ],
                     ),
                   ),
+                  
                   Expanded(
                     flex: 4,
                     child: Container(
@@ -241,7 +242,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           color: Colors.indigo,
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => OrderScreen()),
+                          );
+                        },
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
