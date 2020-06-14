@@ -95,7 +95,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         Expanded(
                           flex: 7,
                           child: Container(
-
                             height: double.infinity,
                             width: double.infinity,
                             margin: EdgeInsets.symmetric(

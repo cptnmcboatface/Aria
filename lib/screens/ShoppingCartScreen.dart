@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:aria_makeup/shared/Constants.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -156,6 +157,7 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
       ),
     );
   }
+final ScrollController _scrollBarController = ScrollController();
 
   Widget shoppingCartItems() {
     final List<String> imgList = [
@@ -168,15 +170,20 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
     ];
     return Container(
       padding: EdgeInsets.only(top: 20, bottom: 10, left: 20, right: 20),
-      child: ListView(
-        physics: BouncingScrollPhysics(),
-        children: <Widget>[
-          listTileShoppingCart(imgList[0], 0),
-          listTileShoppingCart(imgList[1], 1),
-          listTileShoppingCart(imgList[2], 2),
-          listTileShoppingCart(imgList[3], 3),
-          listTileShoppingCart(imgList[4], 4),
-        ],
+      child: CupertinoScrollbar(
+        isAlwaysShown: true,
+        controller: _scrollBarController,
+              child: ListView(
+                controller: _scrollBarController,
+            physics: BouncingScrollPhysics(),
+            children: <Widget>[
+              listTileShoppingCart(imgList[0], 0),
+              listTileShoppingCart(imgList[1], 1),
+              listTileShoppingCart(imgList[2], 2),
+              listTileShoppingCart(imgList[3], 3),
+              listTileShoppingCart(imgList[4], 4),
+            ],
+          ),
       ),
     );
   }

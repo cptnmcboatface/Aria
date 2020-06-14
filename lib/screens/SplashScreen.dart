@@ -31,13 +31,13 @@ class _SplashScreenState extends State<SplashScreen> {
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Text(
-                "ARQOZMETICS",
+                "Brand Name",
                 style: GoogleFonts.playfairDisplay(
                     textStyle: TextStyle(fontSize: 38, color: Colors.white)),
               ),
               SizedBox(height: 10),
               Text(
-                "WHERE QUALITY IS QUEEN",
+                "Slogan Comes Here",
                 style: GoogleFonts.montserrat(
                     textStyle: TextStyle(fontSize: 15, color: Colors.white)),
               ),
