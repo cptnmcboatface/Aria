@@ -18,9 +18,108 @@ class HomeScreen extends StatefulWidget {
 // AuthService().signOut();
 class _HomeScreenState extends State<HomeScreen> {
   @override
+  Widget homeScreenDrawer() {
+    return Drawer(
+        child: ListView(
+      padding: EdgeInsets.zero,
+      children: <Widget>[
+        DrawerHeader(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "Welcome.",
+                style: GoogleFonts.montserrat(
+                    textStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w300)),
+              ),
+              Text(
+                "Brand Name",
+                style: GoogleFonts.montserrat(
+                    textStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30,
+                        fontWeight: FontWeight.w500)),
+              ),
+            ],
+          
+          ),
+          decoration: BoxDecoration(
+            color: mainThemeColor,
+          ),
+        ),
+        ListTile(
+          title: Text(
+            "Categories",
+            style: GoogleFonts.montserrat(
+                textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500)),
+          ),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+        ListTile(
+          title: Text(
+            "Shopping Cart",
+            style: GoogleFonts.montserrat(
+                textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500)),
+          ),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ShoppingCartScreen()),
+                  );
+          },
+        ),
+        ListTile(
+          title: Text(
+            "Liked Items",
+            style: GoogleFonts.montserrat(
+                textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500)),
+          ),
+          onTap: () {
+          },
+        ),
+        ListTile(
+          title: Text(
+            "Personal Information",
+            style: GoogleFonts.montserrat(
+                textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500)),
+          ),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => UserDataScreen()),
+                  );
+          },
+        ),
+      ],
+    ));
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: homeScreenDrawer(),
         appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Colors.white,
           elevation: 0.0,
           actions: <Widget>[
@@ -28,13 +127,11 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {},
               icon: Icon(
                 Icons.search,
-                color: Colors.black,
               ),
             ),
             IconButton(
                 icon: Icon(
-                  Icons.shopping_basket,
-                  color: Colors.black,
+                  Icons.shopping_cart,
                 ),
                 onPressed: () {
                   Navigator.push(
@@ -44,16 +141,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 }),
           ],
-          leading: IconButton(
-            onPressed: () {
-              AuthService().signOut();
-            },
-            color: Colors.white,
-            icon: Icon(
-              Icons.dehaze,
-              color: Colors.black,
-            ),
-          ),
+
+          // leading: IconButton(
+          //   onPressed: () {
+          //     AuthService().signOut();
+          //   },
+          //   color: Colors.white,
+          //   icon: Icon(
+          //     Icons.dehaze,
+          //     color: Colors.black,
+          //   ),
+          // ),
         ),
         body: Container(
           color: Colors.white,

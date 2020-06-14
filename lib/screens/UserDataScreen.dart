@@ -12,9 +12,8 @@ class UserDataScreen extends StatefulWidget {
 class _UserDataScreenState extends State<UserDataScreen> {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      backgroundColor: Colors.white,
+        backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         resizeToAvoidBottomPadding: false,
         body: SingleChildScrollView(
@@ -55,8 +54,18 @@ class _UserDataScreenState extends State<UserDataScreen> {
                       border: Border.all(color: mainThemeColor, width: 1)),
                   child: userDataInputForm(),
                 ),
-                Center(child: FlatButton(onPressed: (){},
-                  child: Text("Go Back",style: GoogleFonts.montserrat(textStyle: TextStyle(fontSize: 10),),)),)
+                Center(
+                  child: FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "Go Back",
+                        style: GoogleFonts.montserrat(
+                          textStyle: TextStyle(fontSize: 10),
+                        ),
+                      )),
+                )
               ],
             ),
           ),
@@ -124,7 +133,8 @@ class _UserDataScreenState extends State<UserDataScreen> {
             height: 20,
           ),
           Padding(
-            padding: EdgeInsets.only(bottom: bottom-120<0?bottom:bottom-120),
+            padding: EdgeInsets.only(
+                bottom: bottom - 120 < 0 ? bottom : bottom - 120),
             child: Container(
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: Theme(
@@ -147,23 +157,25 @@ class _UserDataScreenState extends State<UserDataScreen> {
                   ),
                 )),
           ),
-          SizedBox(height: 30,),
+          SizedBox(
+            height: 30,
+          ),
           Center(
             child: Container(
               width: double.infinity,
               height: 50,
-              margin: EdgeInsets.symmetric(
-                vertical: 25,
-                horizontal: 20
-              ),
+              margin: EdgeInsets.symmetric(vertical: 25, horizontal: 20),
               color: mainThemeColor,
               child: FlatButton(
-                child: Text("Save",style: GoogleFonts.montserrat(textStyle:TextStyle(color: Colors.white,fontSize: 25)),),
+                child: Text(
+                  "Save",
+                  style: GoogleFonts.montserrat(
+                      textStyle: TextStyle(color: Colors.white, fontSize: 25)),
+                ),
                 onPressed: () {},
               ),
             ),
           ),
-          
         ],
       ),
     );

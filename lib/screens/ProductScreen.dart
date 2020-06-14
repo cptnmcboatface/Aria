@@ -1,3 +1,4 @@
+import 'package:aria_makeup/screens/ShoppingCartScreen.dart';
 import 'package:aria_makeup/shared/Constants.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -250,9 +251,9 @@ class _ProductScreenState extends State<ProductScreen> {
       ),
     );
   }
+
   bool likeState = false;
   Widget productScreenTop() {
-    
     return Container(
       child: new Stack(
         children: <Widget>[
@@ -281,7 +282,13 @@ class _ProductScreenState extends State<ProductScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ShoppingCartScreen()),
+                      );
+                    },
                     padding: EdgeInsets.only(top: 30),
                     icon: Icon(
                       Icons.shopping_cart,
@@ -309,12 +316,12 @@ class _ProductScreenState extends State<ProductScreen> {
                   IconButton(
                     onPressed: () {
                       setState(() {
-                        likeState=!likeState;
+                        likeState = !likeState;
                       });
                     },
                     padding: EdgeInsets.only(bottom: 60),
                     icon: Icon(
-                      likeState?Icons.favorite:Icons.favorite_border,
+                      likeState ? Icons.favorite : Icons.favorite_border,
                       size: 25,
                       color: Colors.white,
                     ),
@@ -374,19 +381,14 @@ class ShapesPainter extends CustomPainter {
       radius: Radius.circular(30),
     );
     curvePath.lineTo(0, 0);
-    
+
     curvePath.lineTo(0, -60);
-    
 
-    curvePath.arcToPoint(
-      Offset(30, -30),
-      
-      radius: Radius.circular(30),
-      rotation: 0,
-      clockwise: false
+    curvePath.arcToPoint(Offset(30, -30),
+        radius: Radius.circular(30), rotation: 0, clockwise: false
 
-      // largeArc: true,
-    );
+        // largeArc: true,
+        );
     canvas.drawPath(curvePath, paint);
 
     //10
