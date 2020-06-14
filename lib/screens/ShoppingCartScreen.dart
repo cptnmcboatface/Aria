@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:aria_makeup/shared/Constants.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:aria_makeup/screens/CheckoutScreen.dart';
 
 class ShoppingCartScreen extends StatefulWidget {
   @override
@@ -54,7 +53,7 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
               flex: 3,
               child: Container(
                 padding: EdgeInsets.only(left: 20),
-                child: Text("MY CART",
+                child: Text("My cart",
                     style: GoogleFonts.montserrat(
                         color: titleFontColor,
                         fontSize: 30,
@@ -85,7 +84,7 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                                 fontWeight: FontWeight.w300,
                                 textStyle: TextStyle(color: titleFontColor)),
                             text:
-                                'Total (Including Shipping)    ', // default text style
+                                'Sub-Total    ', // default text style
                             children: <TextSpan>[
                               TextSpan(
                                   text: "Rs. 580",
@@ -108,34 +107,46 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                             color: Colors.indigo,
                             borderRadius:
                                 BorderRadius.all(Radius.circular(10))),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.only(left: 20),
-                              child: Text(
-                                "Check out",
-                                style: GoogleFonts.montserrat(
-                                    textStyle: TextStyle(
-                                        color: Colors.white, letterSpacing: .5),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CheckoutScreen()),
+                            );
+                          },
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.only(left: 20),
+                                child: Text(
+                                  "Check out",
+                                  style: GoogleFonts.montserrat(
+                                      textStyle: TextStyle(
+                                          color: Colors.white,
+                                          letterSpacing: .5),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500),
+                                ),
                               ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
-                              child: Icon(Icons.arrow_forward_ios),
-                              padding: EdgeInsets.all(10),
-                              margin: EdgeInsets.all(10),
-                            )
-                          ],
+                              Container(
+                                
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                child: Icon(Icons.arrow_forward_ios),
+                                padding: EdgeInsets.all(10),
+                                margin: EdgeInsets.all(10),
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                    )
+                    ),
+                    
                   ],
                 ),
               ),
@@ -160,17 +171,18 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
       child: ListView(
         physics: BouncingScrollPhysics(),
         children: <Widget>[
-          listTileShoppingCart(imgList[0],0),
-          listTileShoppingCart(imgList[1],1),
-          listTileShoppingCart(imgList[2],2),
-          listTileShoppingCart(imgList[3],3),
-          listTileShoppingCart(imgList[4],4),
+          listTileShoppingCart(imgList[0], 0),
+          listTileShoppingCart(imgList[1], 1),
+          listTileShoppingCart(imgList[2], 2),
+          listTileShoppingCart(imgList[3], 3),
+          listTileShoppingCart(imgList[4], 4),
         ],
       ),
     );
   }
-var itemCount = [1,1,1,1,1];
-  Widget listTileShoppingCart(url,id) {
+
+  var itemCount = [1, 1, 1, 1, 1];
+  Widget listTileShoppingCart(url, id) {
     double tileImageSize = 56;
     return ListTile(
       leading: ClipRRect(
@@ -198,10 +210,10 @@ var itemCount = [1,1,1,1,1];
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           InkWell(
-            onTap: (){
-              updateCount(id,true);
+            onTap: () {
+              updateCount(id, true);
             },
-                      child: Icon(
+            child: Icon(
               Icons.arrow_upward,
               size: 17,
               color: Color.fromRGBO(0, 0, 0, 0.4),
@@ -215,10 +227,10 @@ var itemCount = [1,1,1,1,1];
                 color: Color.fromRGBO(0, 0, 0, 0.8)),
           ),
           InkWell(
-            onTap: (){
-              updateCount(id,false);
+            onTap: () {
+              updateCount(id, false);
             },
-                      child: Icon(
+            child: Icon(
               Icons.arrow_downward,
               size: 17,
               color: Color.fromRGBO(0, 0, 0, 0.4),
@@ -228,14 +240,15 @@ var itemCount = [1,1,1,1,1];
       ),
     );
   }
-  void updateCount(id, bool direction){
-    if(direction){
+
+  void updateCount(id, bool direction) {
+    if (direction) {
       setState(() {
-        itemCount[id]+=1;
+        itemCount[id] += 1;
       });
-    }else{
+    } else {
       setState(() {
-        itemCount[id]-=1;
+        itemCount[id] -= 1;
       });
     }
   }
