@@ -62,6 +62,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         Expanded(
                             flex: 7,
                             child: Container(
+                              width: double.infinity,
+                              height: double.infinity,
                               decoration: BoxDecoration(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10)),
@@ -97,8 +99,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           child: Container(
                             height: double.infinity,
                             width: double.infinity,
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 5, vertical: 10),
+                            margin: EdgeInsets.symmetric(vertical: 10),
                             decoration: BoxDecoration(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
@@ -109,8 +110,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               onChanged: (val) {},
                               keyboardType: TextInputType.multiline,
                               decoration: InputDecoration(
-                                  contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 10),
                                   border: InputBorder.none,
                                   hintText: 'Enter your address',
                                   hintStyle:
@@ -136,6 +135,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         Expanded(
                             flex: 7,
                             child: Container(
+                              width: double.infinity,
+                              height: double.infinity,
                               decoration: BoxDecoration(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10)),
@@ -173,13 +174,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             children: <Widget>[
                               Expanded(
                                 child: Container(
-                                  margin: EdgeInsets.symmetric(
-                                      horizontal: 5, vertical: 10),
+                                  height: double.infinity,
+                                  width: double.infinity,
+                                  margin: EdgeInsets.symmetric(vertical: 10),
                                   decoration: BoxDecoration(
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(10)),
                                       border: Border.all()),
-                                  height: double.infinity,
                                   child: FlatButton(
                                     onPressed: null,
                                     child: Text("Cash On Delivery",

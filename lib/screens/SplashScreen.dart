@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
               SizedBox(height: 10),
               Text(
-                "Slogan Comes Here",
+                "Slogan Comes Here ",
                 style: GoogleFonts.montserrat(
                     textStyle: TextStyle(fontSize: 15, color: Colors.white)),
               ),
