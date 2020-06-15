@@ -8,25 +8,52 @@ class DataBase {
   DataBase({this.uid});
   final databaseReference = Firestore.instance;
 
-  void createRecord() async {
+  void createCart() async {
     print("Record Created");
-    await databaseReference.collection("users").document(uid).setData({
-      'Name': '',
-      'Address': [],
-      'Phone No': '',
-      'uid': this.uid,
-      'email': ''
+    await databaseReference
+        .collection("Shopping Carts")
+        .document(uid)
+        .setData({'Products': [], 'Quantities': {}});
+  }
+
+  void addItem(itemID) async {
+    print("Record Created");
+    await databaseReference
+        .collection("Shopping Carts")
+        .document(uid)
+        .updateData({
+      'Products': FieldValue.arrayUnion([itemID]),
+      'Quantities' + '.' + itemID: 1
     });
   }
 
-  Future<bool> checkUser() async {
+  void removeItem(itemID) async {
+    await databaseReference
+        .collection("Shopping Carts")
+        .document(uid)
+        .updateData({
+      'Products': FieldValue.arrayRemove([itemID]),
+      'Quantities' + '.' + itemID: 0
+    });
+  }
+
+  void updateItemQuantity(itemID,newCount) async {
+    await databaseReference
+        .collection("Shopping Carts")
+        .document(uid)
+        .updateData({
+      // 'Products': FieldValue.arrayRemove([itemID]),
+      'Quantities' + '.' + itemID: newCount
+    });
+  }
+
+  Future<bool> checkCart() async {
     return await databaseReference
-        .collection("users")
+        .collection("Shopping Carts")
         .document(uid)
         .get()
         .then((userSnapshot) {
-      print(userSnapshot.data["Name"]);
-      if (userSnapshot.data["Name"] == "") {
+      if (userSnapshot.data == null) {
         return false;
       } else {
         return true;
@@ -35,21 +62,48 @@ class DataBase {
   }
 
   Map<String, Product> _productMapFromSnapshot(QuerySnapshot snapshot) {
-    return Map.fromIterable(snapshot.documents, key: (value) => value.data["id"], value: (value) => Product(
-          name: value.data['Name'],
-          price: value.data['Price'],
-          images: value.data['Images']));
-  }
-  Map<String, List<String>> _categoryMapFromSnapshot(QuerySnapshot snapshot) {
-    // print(Map.fromIterable(snapshot.documents, key: (value) => value.data["category"], value: (value) => value.data['Products'].tp));
-    return Map.fromIterable(snapshot.documents, key: (value) => value.data["category"], value: (value) => value.data['Products'].toList());
+    return Map.fromIterable(snapshot.documents,
+        key: (value) => value.data["id"],
+        value: (value) => Product(
+            name: value.data['Name'],
+            price: value.data['Price'],
+            images: value.data['Images'],
+            id: value.data['id']));
   }
 
-  Stream<Map<String, List<String>>> get categoryStream {
-    return databaseReference.collection("Categories").snapshots().map(_categoryMapFromSnapshot);
+  Map<String, Category> _categoryMapFromSnapshot(QuerySnapshot snapshot) {
+    return Map.fromIterable(snapshot.documents,
+        key: (value) => value.data["category"],
+        value: (value) => Category(
+            name: value.data["category"],
+            products: value.data['Products'].toList()));
+  }
+
+  Stream<Map<String, Category>> get categoryStream {
+    return databaseReference
+        .collection("Categories")
+        .snapshots()
+        .map(_categoryMapFromSnapshot);
   }
 
   Stream<Map<String, Product>> get productStream {
-    return databaseReference.collection("Products").snapshots().map(_productMapFromSnapshot);
+    return databaseReference
+        .collection("Products")
+        .snapshots()
+        .map(_productMapFromSnapshot);
+  }
+
+  ShoppingCart _shoppingCartFromSnapshot(DocumentSnapshot snapshot) {
+    return ShoppingCart(
+        products: snapshot.data['Products'].toList(),
+        quantities: snapshot.data['Quantities']);
+  }
+
+  Stream<ShoppingCart> get shoppingCartStream {
+    return databaseReference
+        .collection("Shopping Carts")
+        .document(uid)
+        .snapshots()
+        .map(_shoppingCartFromSnapshot);
   }
 }

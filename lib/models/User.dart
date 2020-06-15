@@ -3,16 +3,22 @@ class User {
   User({this.uid});
 }
 
-class Product{
+class Product {
   String name;
+  String id;
   var images;
   int price;
-  Product({this.name,this.price,this.images});
-
+  Product({this.name, this.price, this.images, this.id});
 }
 
-class Category{
+class ShoppingCart {
+  var products;
+  var quantities;
+  ShoppingCart({this.products,this.quantities});
+}
+
+class Category {
   String name;
   var products;
-  Category({this.name,this.products});
+  Category({this.name, this.products});
 }

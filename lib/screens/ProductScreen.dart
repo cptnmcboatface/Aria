@@ -1,4 +1,6 @@
+import 'package:aria_makeup/models/User.dart';
 import 'package:aria_makeup/screens/ShoppingCartScreen.dart';
+import 'package:aria_makeup/services/DatabaseService.dart';
 import 'package:aria_makeup/shared/Constants.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -6,26 +8,19 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sky_engine/math/math.dart';
 
 class ProductScreen extends StatefulWidget {
-  final name;
-  ProductScreen({this.name});
+  final product;
+  final uid;
+  ProductScreen({this.product, this.uid});
   @override
   _ProductScreenState createState() => _ProductScreenState();
 }
 
-final List<String> imgList = [
-  'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-  'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
-  'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
-  'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
-  'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
-  'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
-];
-
 class _ProductScreenState extends State<ProductScreen> {
-  @override
   int _current = 0;
 
+  @override
   Widget build(BuildContext context) {
+    final dB = DataBase(uid: widget.uid);
     return Scaffold(
       body: Container(
         color: Colors.white,
@@ -68,7 +63,7 @@ class _ProductScreenState extends State<ProductScreen> {
             Expanded(
               flex: 20,
               child: Text(
-                "Lorem Ipsum",
+                widget.product.name,
                 style: GoogleFonts.montserrat(
                     textStyle: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -123,7 +118,7 @@ class _ProductScreenState extends State<ProductScreen> {
             Expanded(
               flex: 15,
               child: Text(
-                "Rs. 580",
+                "Rs. " + widget.product.price.toString(),
                 style: GoogleFonts.montserrat(
                     textStyle: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -137,7 +132,6 @@ class _ProductScreenState extends State<ProductScreen> {
                 margin: EdgeInsets.only(bottom: 10, right: 20),
                 height: double.infinity,
                 width: double.infinity,
-                // color: Colors.red,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -209,7 +203,9 @@ class _ProductScreenState extends State<ProductScreen> {
                   Expanded(
                     flex: 3,
                     child: FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        DataBase(uid: widget.uid).addItem(widget.product.id);
+                      },
                       child: Icon(
                         Icons.add_shopping_cart,
                         color: mainThemeColor,
@@ -252,6 +248,14 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 
+  List<String> dynamicToSimpleList(List<dynamic> dynamicList) {
+    List<String> simpleList = new List();
+    dynamicList.forEach((val) {
+      simpleList.add(val);
+    });
+    return simpleList;
+  }
+
   bool likeState = false;
   Widget productScreenTop() {
     return Container(
@@ -283,7 +287,7 @@ class _ProductScreenState extends State<ProductScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ShoppingCartScreen()),
+                            builder: (context) => ShoppingCartScreen(uid:widget.uid)),
                       );
                     },
                     padding: EdgeInsets.only(top: 30),
@@ -295,8 +299,10 @@ class _ProductScreenState extends State<ProductScreen> {
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: imgList.map((url) {
-                      int index = imgList.indexOf(url);
+                    children:
+                        dynamicToSimpleList(widget.product.images).map((url) {
+                      int index = dynamicToSimpleList(widget.product.images)
+                          .indexOf(url);
                       return Container(
                         width: _current == index ? 10.0 : 7.0,
                         height: _current == index ? 10.0 : 7.0,
@@ -338,13 +344,14 @@ class _ProductScreenState extends State<ProductScreen> {
         Expanded(
           flex: 19,
           child: CarouselSlider(
-            items: imgList
+            items: dynamicToSimpleList(widget.product.images)
                 .map((item) => Container(
                       child: Center(
                           child: Image.network(
                         item,
                         fit: BoxFit.cover,
                         height: double.infinity,
+                        width: double.infinity,
                       )),
                     ))
                 .toList(),

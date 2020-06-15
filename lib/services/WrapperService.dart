@@ -21,18 +21,19 @@ class _WrapperState extends State<Wrapper> {
   bool check;
   @override
   Widget build(BuildContext context) {
-    return HomeScreen(uid: widget.uid);
-    // return FutureBuilder(
-    //     future: widget.dB.checkUser(),
-    //     builder: (context, snapshot) {
-    //       if (snapshot.hasData) {
-    //         bool userDataCheck = snapshot.data;
-            
-    //         return HomeScreen(uid: widget.uid, userDataCheck: userDataCheck);
-    //       } else {
-    //         print("No Data User Data Check");
-    //         return LoadingScreen();
-    //       }
-    //     });
+    return FutureBuilder(
+        future: widget.dB.checkCart(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            bool userDataCheck = snapshot.data;
+            if(!userDataCheck){
+              widget.dB.createCart();
+            }
+            return HomeScreen(uid: widget.uid);
+          } else {
+            print("No Data User Data Check");
+            return LoadingScreen();
+          }
+        });
   }
 }
