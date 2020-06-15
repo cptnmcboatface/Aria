@@ -1,4 +1,3 @@
-
 import 'package:aria_makeup/screens/AllItemsScreen.dart';
 import 'package:aria_makeup/screens/ProductScreen.dart';
 import 'package:aria_makeup/shared/Constants.dart';
@@ -7,6 +6,9 @@ import 'package:aria_makeup/services/AuthenticateService.dart';
 import 'package:aria_makeup/screens/UserDataScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:aria_makeup/screens/ShoppingCartScreen.dart';
+import 'package:aria_makeup/services/DatabaseService.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:aria_makeup/models/User.dart';
 
 class HomeScreen extends StatefulWidget {
   final uid;
@@ -51,6 +53,20 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         ListTile(
           title: Text(
+            "Log Out",
+            style: GoogleFonts.montserrat(
+                textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500)),
+          ),
+          onTap: () {
+            Navigator.pop(context);
+            AuthService().signOut();
+          },
+        ),
+        ListTile(
+          title: Text(
             "All Items",
             style: GoogleFonts.montserrat(
                 textStyle: TextStyle(
@@ -61,10 +77,9 @@ class _HomeScreenState extends State<HomeScreen> {
           onTap: () {
             Navigator.pop(context);
             Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => AllItemsScreen()),
-                  );
+              context,
+              MaterialPageRoute(builder: (context) => AllItemsScreen()),
+            );
           },
         ),
         ListTile(
@@ -79,10 +94,9 @@ class _HomeScreenState extends State<HomeScreen> {
           onTap: () {
             Navigator.pop(context);
             Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ShoppingCartScreen()),
-                  );
+              context,
+              MaterialPageRoute(builder: (context) => ShoppingCartScreen()),
+            );
           },
         ),
         ListTile(
@@ -94,8 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontSize: 18,
                     fontWeight: FontWeight.w500)),
           ),
-          onTap: () {
-          },
+          onTap: () {},
         ),
         ListTile(
           title: Text(
@@ -109,10 +122,9 @@ class _HomeScreenState extends State<HomeScreen> {
           onTap: () {
             Navigator.pop(context);
             Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => UserDataScreen()),
-                  );
+              context,
+              MaterialPageRoute(builder: (context) => UserDataScreen()),
+            );
           },
         ),
       ],
@@ -120,7 +132,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget build(BuildContext context) {
+    final dB = DataBase(uid: widget.uid);
     return Scaffold(
+        backgroundColor: Colors.white,
         drawer: homeScreenDrawer(),
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),
@@ -139,28 +153,158 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 }),
           ],
-
-          // leading: IconButton(
-          //   onPressed: () {
-          //     AuthService().signOut();
-          //   },
-          //   color: Colors.white,
-          //   icon: Icon(
-          //     Icons.dehaze,
-          //     color: Colors.black,
-          //   ),
-          // ),
         ),
-        body: Container(
-          color: Colors.white,
-          child: Column(
-            children: <Widget>[
-              titleBar(),
-              trendingDrawer(),
-              homeScreenBottomDrawer()
-            ],
+        body: StreamBuilder(
+            stream: dB.productStream,
+            builder: (context, snapshot1) {
+              if (!snapshot1.hasData) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SpinKitPumpingHeart(
+                        color: mainThemeColor,
+                        size: 20.0,
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text("Connecting to the servers",
+                          style: GoogleFonts.montserrat(
+                            fontSize: 15,
+                            color: Color.fromRGBO(0, 0, 0, 0.4),
+                          )),
+                    ],
+                  ),
+                );
+              } else {
+                Map<String, Product> products = snapshot1.data;
+                return StreamBuilder(
+                  stream:dB.categoryStream,
+                  builder:(context, snapshot2){
+                    return Container(
+                  color: Colors.white,
+                  child: Column(
+                    children: <Widget>[
+                      titleBar(),
+                      trendingDrawer(products),
+                      homeScreenBottomDrawer()
+                    ],
+                  ),
+                );
+                  }
+                );
+                
+              }
+            }
+            
+            ));
+  }
+
+  Widget trendingDrawer(Map<String, Product> products) {
+    
+    final trendingCardHeigth = 300.0;
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 20.0),
+      height: trendingCardHeigth,
+      child: ListView(
+        physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        children: <Widget>[
+          SizedBox(
+            width: 20,
           ),
-        ));
+          trendingCard(Colors.red),
+          SizedBox(
+            width: 20,
+          ),
+          trendingCard(Colors.blue),
+          SizedBox(
+            width: 20,
+          ),
+          trendingCard(Colors.green),
+          SizedBox(
+            width: 20,
+          ),
+          trendingCard(Colors.yellow),
+          SizedBox(
+            width: 10,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget trendingCard(var col) {
+    Color trendingCardNameColor = Color.fromRGBO(0, 0, 0, 0.6);
+    return Container(
+      height: 300,
+      width: 180,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+              color: col,
+            ),
+            height: 240,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            "Lorem Ipsum",
+            style: GoogleFonts.montserrat(
+                textStyle: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: trendingCardNameColor,
+                    fontSize: 15)),
+          ),
+          Text(
+            "Rs. 580",
+            style: GoogleFonts.montserrat(
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: trendingCardNameColor,
+                  fontSize: 20,
+                ),
+                color: mainThemeColor),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget titleBar() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.only(left: 20),
+          child: Text(
+            "Trending",
+            style: GoogleFonts.montserrat(
+              textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.only(right: 10),
+          child: InkWell(
+            onTap: () {},
+            child: Text(
+              "See All",
+              style: GoogleFonts.montserrat(
+                textStyle: TextStyle(fontWeight: FontWeight.w300, fontSize: 15),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   var homeScreenOptionState = 0;
@@ -333,111 +477,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget trendingDrawer() {
-    final trendingCardHeigth = 300.0;
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 20.0),
-      height: trendingCardHeigth,
-      child: ListView(
-        physics: const BouncingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        children: <Widget>[
-          SizedBox(
-            width: 20,
-          ),
-          trendingCard(Colors.red),
-          SizedBox(
-            width: 20,
-          ),
-          trendingCard(Colors.blue),
-          SizedBox(
-            width: 20,
-          ),
-          trendingCard(Colors.green),
-          SizedBox(
-            width: 20,
-          ),
-          trendingCard(Colors.yellow),
-          SizedBox(
-            width: 10,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget trendingCard(var col) {
-    Color trendingCardNameColor = Color.fromRGBO(0, 0, 0, 0.6);
-    return Container(
-      height: 300,
-      width: 180,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-              color: col,
-            ),
-            height: 240,
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            "Lorem Ipsum",
-            style: GoogleFonts.montserrat(
-                textStyle: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: trendingCardNameColor,
-                    fontSize: 15)),
-          ),
-          Text(
-            "Rs. 580",
-            style: GoogleFonts.montserrat(
-                textStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: trendingCardNameColor,
-                  fontSize: 20,
-                ),
-                color: mainThemeColor),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget titleBar() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.only(left: 20),
-          child: Text(
-            "Trending",
-            style: GoogleFonts.montserrat(
-              textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(right: 10),
-          child: InkWell(
-            onTap: () {},
-            child: Text(
-              "See All",
-              style: GoogleFonts.montserrat(
-                textStyle: TextStyle(fontWeight: FontWeight.w300, fontSize: 15),
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

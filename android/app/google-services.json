@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "911596847450",
-    "firebase_url": "https://aria-makeup.firebaseio.com",
-    "project_id": "aria-makeup",
-    "storage_bucket": "aria-makeup.appspot.com"
+    "project_number": "1023895167841",
+    "firebase_url": "https://arqozmetics.firebaseio.com",
+    "project_id": "arqozmetics",
+    "storage_bucket": "arqozmetics.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:911596847450:android:8bca89abf10c5242d53363",
+        "mobilesdk_app_id": "1:1023895167841:android:fc4a29bdc474d738561b20",
         "android_client_info": {
           "package_name": "com.example.aria_makeup"
         }
       },
       "oauth_client": [
         {
-          "client_id": "911596847450-lrtgi40o9k8jci174lrk8le8e97gceg0.apps.googleusercontent.com",
+          "client_id": "1023895167841-3mj76ssa7su68ddhce7vk536pbns2eqa.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBOMNHo6lp9lCNTJ65lrLWQWI2WFFid-_M"
+          "current_key": "AIzaSyBlP4AFOekR_s-bKmpbx6poVb12gZFAtLA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "911596847450-lrtgi40o9k8jci174lrk8le8e97gceg0.apps.googleusercontent.com",
+              "client_id": "1023895167841-3mj76ssa7su68ddhce7vk536pbns2eqa.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
