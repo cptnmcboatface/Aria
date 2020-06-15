@@ -157,7 +157,10 @@ class _HomeScreenState extends State<HomeScreen> {
         body: StreamBuilder(
             stream: dB.productStream,
             builder: (context, snapshot1) {
-              if (!snapshot1.hasData) {
+                return StreamBuilder(
+                  stream:DataBase(uid: widget.uid).categoryStream,
+                  builder:(context, snapshot2){
+                    if (!snapshot1.hasData ) {
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -177,31 +180,31 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 );
-              } else {
+              } else{
                 Map<String, Product> products = snapshot1.data;
-                return StreamBuilder(
-                  stream:dB.categoryStream,
-                  builder:(context, snapshot2){
+                Map<String, List<String>> categories = snapshot2.data;
+                print(categories);
                     return Container(
                   color: Colors.white,
                   child: Column(
                     children: <Widget>[
                       titleBar(),
-                      trendingDrawer(products),
+                      trendingDrawer(products/*,categories['Trending']*/),
                       homeScreenBottomDrawer()
                     ],
                   ),
-                );
+                );}
                   }
                 );
                 
-              }
+              
             }
             
             ));
   }
+  
 
-  Widget trendingDrawer(Map<String, Product> products) {
+  Widget trendingDrawer(Map<String, Product> AllProducts/*,List<String> trendingProducts*/) {
     
     final trendingCardHeigth = 300.0;
     return Container(

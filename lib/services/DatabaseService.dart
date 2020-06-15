@@ -41,7 +41,8 @@ class DataBase {
           images: value.data['Images']));
   }
   Map<String, List<String>> _categoryMapFromSnapshot(QuerySnapshot snapshot) {
-    return Map.fromIterable(snapshot.documents, key: (value) => value.data["category"], value: (value) => value.data['Products']);
+    // print(Map.fromIterable(snapshot.documents, key: (value) => value.data["category"], value: (value) => value.data['Products'].tp));
+    return Map.fromIterable(snapshot.documents, key: (value) => value.data["category"], value: (value) => value.data['Products'].toList());
   }
 
   Stream<Map<String, List<String>>> get categoryStream {

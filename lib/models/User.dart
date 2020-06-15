@@ -10,3 +10,9 @@ class Product{
   Product({this.name,this.price,this.images});
 
 }
+
+class Category{
+  String name;
+  var products;
+  Category({this.name,this.products});
+}
