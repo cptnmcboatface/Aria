@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:aria_makeup/models/User.dart';
 
@@ -37,15 +35,39 @@ class DataBase {
     });
   }
 
-  void updateItemQuantity(itemID,newCount) async {
+  void updateItemQuantity(itemID, newCount) async {
     await databaseReference
         .collection("Shopping Carts")
         .document(uid)
         .updateData({
-      // 'Products': FieldValue.arrayRemove([itemID]),
       'Quantities' + '.' + itemID: newCount
     });
   }
+
+  void addOrder(Order order) async {
+    print("Order Recieved");
+    
+    await databaseReference
+        .collection("Orders")
+        .document(order.orderId)
+        .setData({
+      'Products': order.shoppingCart.products,
+      'Quantity': order.shoppingCart.quantities,
+      'User': order.uid,
+      'Name': order.name,
+      'Address': order.address,
+      'Phone Number': order.phoneNumber,
+      'price': order.price
+    });
+    this.createCart();
+  }
+
+  // void addOrdertoUser(Order order) async {
+  //   print("Order Recieved");
+  //   await databaseReference.collection("User").document(uid).setData({
+  //     'Orders': FieldValue.arrayUnion();
+  //   });
+  // }
 
   Future<bool> checkCart() async {
     return await databaseReference
@@ -57,6 +79,7 @@ class DataBase {
         return false;
       } else {
         return true;
+        
       }
     });
   }

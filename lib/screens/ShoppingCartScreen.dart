@@ -140,7 +140,11 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  CheckoutScreen()),
+                                                  CheckoutScreen(
+                                                    uid: widget.uid,
+                                                    shoppingcart: shoppingCart,
+                                                    allProducts: allProducts,
+                                                  )),
                                         );
                                       },
                                       child: Row(
@@ -219,7 +223,7 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
   }
 
   var itemCount = [1, 1, 1, 1, 1];
-  int totalPrice;
+  
   int calculatePrice(
       ShoppingCart shoppingCart, Map<String, Product> allProducts) {
     int t = 0;

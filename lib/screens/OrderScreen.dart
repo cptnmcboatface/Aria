@@ -4,6 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/cupertino.dart';
 
 class OrderScreen extends StatefulWidget {
+  // final shoppingcart, orderId;
+
+  // OrderScreen()
+  
   @override
   _OrderScreenState createState() => _OrderScreenState();
 }
