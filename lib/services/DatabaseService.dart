@@ -6,6 +6,15 @@ class DataBase {
   DataBase({this.uid});
   final databaseReference = Firestore.instance;
 
+  void createUser() async {
+    print('User Created');
+    await databaseReference
+        .collection("Users")
+        .document(uid)
+        .setData({'uid': uid, 'Orders': {}, 'Liked Items': []});
+    this.createCart();
+  }
+
   void createCart() async {
     print("Record Created");
     await databaseReference
@@ -15,7 +24,7 @@ class DataBase {
   }
 
   void addItem(itemID) async {
-    print("Record Created");
+    print("Itemm Added to Cart");
     await databaseReference
         .collection("Shopping Carts")
         .document(uid)
@@ -26,6 +35,7 @@ class DataBase {
   }
 
   void removeItem(itemID) async {
+    print("Item Removed from Cart");
     await databaseReference
         .collection("Shopping Carts")
         .document(uid)
@@ -36,17 +46,15 @@ class DataBase {
   }
 
   void updateItemQuantity(itemID, newCount) async {
+    print("Quantity Updated");
     await databaseReference
         .collection("Shopping Carts")
         .document(uid)
-        .updateData({
-      'Quantities' + '.' + itemID: newCount
-    });
+        .updateData({'Quantities' + '.' + itemID: newCount});
   }
 
   void addOrder(Order order) async {
     print("Order Recieved");
-    
     await databaseReference
         .collection("Orders")
         .document(order.orderId)
@@ -59,19 +67,29 @@ class DataBase {
       'Phone Number': order.phoneNumber,
       'price': order.price
     });
+    this.addOrdertoUser(order);
     this.createCart();
   }
 
-  // void addOrdertoUser(Order order) async {
-  //   print("Order Recieved");
-  //   await databaseReference.collection("User").document(uid).setData({
-  //     'Orders': FieldValue.arrayUnion();
-  //   });
-  // }
+  void addOrdertoUser(Order order) async {
+    print("Order Added to User Profile");
+    await databaseReference.collection("Users").document(uid).updateData({
+      'Orders.' + order.orderId: {
+        'OrderId': order.orderId,
+        'Products': order.shoppingCart.products,
+        'Quantity': order.shoppingCart.quantities,
+        'User': order.uid,
+        'Name': order.name,
+        'Address': order.address,
+        'Phone Number': order.phoneNumber,
+        'price': order.price
+      }
+    });
+  }
 
-  Future<bool> checkCart() async {
+  Future<bool> checkUser() async {
     return await databaseReference
-        .collection("Shopping Carts")
+        .collection("Users")
         .document(uid)
         .get()
         .then((userSnapshot) {
@@ -79,7 +97,6 @@ class DataBase {
         return false;
       } else {
         return true;
-        
       }
     });
   }
@@ -128,5 +145,13 @@ class DataBase {
         .document(uid)
         .snapshots()
         .map(_shoppingCartFromSnapshot);
+  }
+  List <String> _ListFromSnapshot(DocumentSnapshot snapshot){
+    return snapshot.data["Liked Items"];
+  }
+
+  Stream<List<String>> get likedItemsStrem {
+    return databaseReference.collection("Users").document(uid).snapshots().map(_ListFromSnapshot);
+    
   }
 }

@@ -2,12 +2,13 @@ import 'package:aria_makeup/shared/Constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:aria_makeup/models/User.dart';
 
 class OrderScreen extends StatefulWidget {
-  // final shoppingcart, orderId;
+  final order, allProducts;
 
-  // OrderScreen()
-  
+  OrderScreen({this.order, this.allProducts});
+
   @override
   _OrderScreenState createState() => _OrderScreenState();
 }
@@ -17,13 +18,14 @@ class _OrderScreenState extends State<OrderScreen> {
   Widget build(BuildContext context) {
     Color appBarIconColor = Color.fromRGBO(0, 0, 0, 0.7);
     Color titleFontColor = Color.fromRGBO(0, 0, 0, 0.8);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
         leading: IconButton(
           onPressed: () {
-            
+            // Navigator.popUntil(context, (route) => false);
           },
           color: Colors.white,
           icon: Icon(
@@ -70,7 +72,6 @@ class _OrderScreenState extends State<OrderScreen> {
                         flex: 9,
                         child: Container(
                             decoration: BoxDecoration(
-                                // color: mainThemeColor,
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(30),
                                 ),
@@ -103,9 +104,9 @@ class _OrderScreenState extends State<OrderScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                costText(580, false),
-                                costText(580, false),
-                                costText(580, true)
+                                costText(widget.order.price - 180, false),
+                                costText(180, false),
+                                costText(widget.order.price, true)
                               ],
                             ),
                           ],
@@ -154,15 +155,17 @@ class _OrderScreenState extends State<OrderScreen> {
     );
   }
 
+  List<String> dynamicToSimpleList(List<dynamic> dynamicList) {
+    List<String> simpleList = new List();
+    dynamicList.forEach((val) {
+      simpleList.add(val);
+    });
+    return simpleList;
+  }
+
+  var itemCount;
   Widget shoppingCartItems() {
-    final List<String> imgList = [
-      'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-      'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
-      'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
-      'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
-      'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
-      'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
-    ];
+    ;
     return Container(
       padding: EdgeInsets.only(top: 20, bottom: 10, left: 20, right: 20),
       child: CupertinoScrollbar(
@@ -171,20 +174,17 @@ class _OrderScreenState extends State<OrderScreen> {
         child: ListView(
           controller: _scrollBarController,
           physics: BouncingScrollPhysics(),
-          children: <Widget>[
-            listTileShoppingCart(imgList[0], 0),
-            listTileShoppingCart(imgList[1], 1),
-            listTileShoppingCart(imgList[2], 2),
-            listTileShoppingCart(imgList[3], 3),
-            listTileShoppingCart(imgList[4], 4),
-          ],
+          children: dynamicToSimpleList(widget.order.shoppingCart.products)
+              .map((product) => listTileShoppingCart(
+                  widget.allProducts[product],
+                  widget.order.shoppingCart.quantities[product]))
+              .toList(),
         ),
       ),
     );
   }
 
-  var itemCount = [1, 1, 1, 1, 1];
-  Widget listTileShoppingCart(url, id) {
+  Widget listTileShoppingCart(Product product, var quantity) {
     double tileImageSize = 56;
     return ListTile(
       leading: ClipRRect(
@@ -194,22 +194,22 @@ class _OrderScreenState extends State<OrderScreen> {
             height: tileImageSize,
             width: tileImageSize,
             child: Image.network(
-              url,
+              product.images[0],
               fit: BoxFit.cover,
             )),
       ),
-      title: Text('Lorem Ipsum',
+      title: Text(product.name,
           style: GoogleFonts.montserrat(
             fontWeight: FontWeight.w500,
             color: Color.fromRGBO(0, 0, 0, 0.8),
           )),
-      subtitle: Text('Rs. 580',
+      subtitle: Text('Rs. ' + product.price.toString(),
           style: GoogleFonts.montserrat(
             fontWeight: FontWeight.normal,
             color: Color.fromRGBO(0, 0, 0, 0.7),
           )),
       trailing: Text(
-        itemCount[id].toString(),
+        quantity.toString(),
         style: GoogleFonts.montserrat(
             fontWeight: FontWeight.w500,
             fontSize: 12,

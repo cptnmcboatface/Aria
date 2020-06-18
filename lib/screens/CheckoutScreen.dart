@@ -25,7 +25,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     bool _isValid = false;
 
     int subtotal = calculatePrice(widget.shoppingcart, widget.allProducts);
-
+    Order order = Order(
+        uid: widget.uid,
+        name: name,
+        phoneNumber: phoneNo,
+        address: address,
+        shoppingCart: widget.shoppingcart,
+        price: subtotal + 180,
+        orderId: randomAlphaNumeric(30));
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
@@ -103,7 +110,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   textAlign: TextAlign.center,
                                   maxLines: null,
                                   onChanged: (val) {
-                                    
                                     setState(() {
                                       name = val;
                                     });
@@ -300,21 +306,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         child: InkWell(
                           onTap: () {
                             if (_formKey.currentState.validate()) {
-                              print(name);
-                              DataBase(uid: widget.uid).addOrder(
-                                Order(
-                                    uid: widget.uid,
-                                    name: name,
-                                    phoneNumber: phoneNo,
-                                    address: address,
-                                    shoppingCart: widget.shoppingcart,
-                                    price: subtotal + 180,
-                                    orderId: randomAlphaNumeric(30)),
-                              );
+                              DataBase(uid: widget.uid).addOrder(order);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => OrderScreen()),
+                                    builder: (context) => OrderScreen(
+                                          order: order,
+                                          allProducts: widget.allProducts,
+                                        )),
                               );
                             }
                           },

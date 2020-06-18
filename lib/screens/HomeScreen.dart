@@ -10,6 +10,7 @@ import 'package:aria_makeup/services/DatabaseService.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:aria_makeup/models/User.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'LikedItemsScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   final uid;
@@ -446,7 +447,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontSize: 18,
                     fontWeight: FontWeight.w500)),
           ),
-          onTap: () {},
+          onTap: () {
+            Navigator.pop(context);
+            MaterialPageRoute(builder: (context) => LikedItemsScreen(uid:widget.uid));
+          },
         ),
         ListTile(
           title: Text(

@@ -9,6 +9,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:aria_makeup/models/User.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'ProductScreen.dart';
+import 'LikedItemsScreen.dart';
 
 class AllItemsScreen extends StatefulWidget {
   final uid;
@@ -284,7 +285,8 @@ class _AllItemsScreenState extends State<AllItemsScreen> {
             Navigator.pop(context);
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ShoppingCartScreen(uid:widget.uid)),
+              MaterialPageRoute(
+                  builder: (context) => ShoppingCartScreen(uid: widget.uid)),
             );
           },
         ),
@@ -297,7 +299,13 @@ class _AllItemsScreenState extends State<AllItemsScreen> {
                     fontSize: 18,
                     fontWeight: FontWeight.w500)),
           ),
-          onTap: () {},
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => LikedItemsScreen(uid:widget.uid)),
+            );
+          },
         ),
         ListTile(
           title: Text(

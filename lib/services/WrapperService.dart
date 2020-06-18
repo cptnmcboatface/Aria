@@ -22,12 +22,13 @@ class _WrapperState extends State<Wrapper> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: widget.dB.checkCart(),
+        future: widget.dB.checkUser(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             bool userDataCheck = snapshot.data;
             if(!userDataCheck){
-              widget.dB.createCart();
+              print("USER DATA CREATED");
+              widget.dB.createUser();
             }
             return HomeScreen(uid: widget.uid);
           } else {
