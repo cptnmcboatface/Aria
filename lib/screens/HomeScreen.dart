@@ -11,6 +11,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:aria_makeup/models/User.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'LikedItemsScreen.dart';
+import 'package:flutter/cupertino.dart';
 
 class HomeScreen extends StatefulWidget {
   final uid;
@@ -110,12 +111,14 @@ class _HomeScreenState extends State<HomeScreen> {
       margin: EdgeInsets.symmetric(vertical: 20.0),
       padding: EdgeInsets.only(left: 20.0),
       height: trendingCardHeigth,
-      child: ListView(
-        physics: const BouncingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        children: categoryItems.map((e) {
-          return trendingCard(allProducts[e]);
-        }).toList(),
+      child: CupertinoScrollbar(
+              child: ListView(
+          physics: const BouncingScrollPhysics(),
+          scrollDirection: Axis.horizontal,
+          children: categoryItems.map((e) {
+            return trendingCard(allProducts[e]);
+          }).toList(),
+        ),
       ),
     );
   }
@@ -285,12 +288,14 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Container(
         padding: EdgeInsets.only(top: 10, bottom: 30, left: 20),
         margin: EdgeInsets.only(left: 10),
-        child: ListView(
-            physics: const BouncingScrollPhysics(),
-            scrollDirection: Axis.horizontal,
-            children: dynamicToSimpleList(myCategory.products)
-                .map((val) => bottomDrawerCard(allProducts[val]))
-                .toList()),
+        child: CupertinoScrollbar(
+                  child: ListView(
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              children: dynamicToSimpleList(myCategory.products)
+                  .map((val) => bottomDrawerCard(allProducts[val]))
+                  .toList()),
+        ),
       ),
     );
   }
@@ -449,7 +454,11 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           onTap: () {
             Navigator.pop(context);
-            MaterialPageRoute(builder: (context) => LikedItemsScreen(uid:widget.uid));
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => LikedItemsScreen(uid: widget.uid)),
+            );
           },
         ),
         ListTile(

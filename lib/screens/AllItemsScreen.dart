@@ -145,7 +145,7 @@ class _AllItemsScreenState extends State<AllItemsScreen> {
   Widget categoryDrawer(
       List<Product> categoryProducts, double height, double width) {
     return Container(
-      margin: EdgeInsets.only(top: 10.0, bottom: 10, right: 20, left: 20),
+      margin: EdgeInsets.only(top: 10.0, bottom: 10,left: 20),
       height: height,
       child: CupertinoScrollbar(
         child: ListView(

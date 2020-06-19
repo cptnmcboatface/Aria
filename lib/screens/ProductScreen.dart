@@ -287,7 +287,8 @@ class _ProductScreenState extends State<ProductScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ShoppingCartScreen(uid:widget.uid)),
+                            builder: (context) =>
+                                ShoppingCartScreen(uid: widget.uid)),
                       );
                     },
                     padding: EdgeInsets.only(top: 30),
@@ -321,6 +322,13 @@ class _ProductScreenState extends State<ProductScreen> {
                       setState(() {
                         likeState = !likeState;
                       });
+                      if (likeState) {
+                        DataBase(uid: widget.uid)
+                            .addLikedItem(widget.product.id);
+                      }else{
+                        DataBase(uid: widget.uid)
+                            .removeLikedItem(widget.product.id);
+                      }
                     },
                     padding: EdgeInsets.only(bottom: 60),
                     icon: Icon(

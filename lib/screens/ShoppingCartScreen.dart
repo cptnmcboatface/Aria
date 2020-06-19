@@ -24,21 +24,6 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
-        actions: <Widget>[
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.search,
-              color: appBarIconColor,
-            ),
-          ),
-          IconButton(
-              icon: Icon(
-                Icons.shopping_basket,
-                color: appBarIconColor,
-              ),
-              onPressed: () {}),
-        ],
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);

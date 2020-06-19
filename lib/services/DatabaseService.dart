@@ -146,12 +146,21 @@ class DataBase {
         .snapshots()
         .map(_shoppingCartFromSnapshot);
   }
-  List <String> _ListFromSnapshot(DocumentSnapshot snapshot){
-    return snapshot.data["Liked Items"];
+
+  void removeLikedItem(String item) async {
+    print("Removed Liked Product");
+    await databaseReference.collection("Users").document(uid).updateData({
+      "Liked Items": FieldValue.arrayRemove([item])
+    });
+  }
+  void addLikedItem(String item) async {
+    print("Liked Product");
+    await databaseReference.collection("Users").document(uid).updateData({
+      "Liked Items": FieldValue.arrayUnion([item])
+    });
   }
 
-  Stream<List<String>> get likedItemsStrem {
-    return databaseReference.collection("Users").document(uid).snapshots().map(_ListFromSnapshot);
-    
+  Stream<DocumentSnapshot> get likedItemsStream {
+    return databaseReference.collection("Users").document(uid).snapshots();
   }
 }
